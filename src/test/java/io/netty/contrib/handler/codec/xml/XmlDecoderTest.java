@@ -22,9 +22,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Verifies the basic functionality of the {@link XmlDecoder}.
@@ -32,6 +30,7 @@ import static org.hamcrest.core.IsNull.nullValue;
  * <a href="https://www.studytrails.com/java/xml/woodstox/java-xml-woodstox-validation-xml-schema.jsp">
  * Woodstox : Validate against XML Schema</a>
  */
+@SuppressWarnings("OverlyStrongTypeCast")
 public class XmlDecoderTest {
 
     private static final String XML1 = "<?xml version=\"1.0\"?>" +
@@ -72,155 +71,155 @@ public class XmlDecoderTest {
         write(XML1);
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlDocumentStart.class));
-        assertThat(((XmlDocumentStart) temp).version(), is("1.0"));
-        assertThat(((XmlDocumentStart) temp).encoding(), is("UTF-8"));
-        assertThat(((XmlDocumentStart) temp).standalone(), is(false));
-        assertThat(((XmlDocumentStart) temp).encodingScheme(), is(nullValue()));
+        assertThat(temp).isInstanceOf(XmlDocumentStart.class);
+        assertThat(((XmlDocumentStart) temp).version()).isEqualTo("1.0");
+        assertThat(((XmlDocumentStart) temp).encoding()).isEqualTo("UTF-8");
+        assertThat(((XmlDocumentStart) temp).standalone()).isFalse();
+        assertThat(((XmlDocumentStart) temp).encodingScheme()).isNull();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlDTD.class));
-        assertThat(((XmlDTD) temp).text(), is("employee.dtd"));
+        assertThat(temp).isInstanceOf(XmlDTD.class);
+        assertThat(((XmlDTD) temp).text()).isEqualTo("employee.dtd");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlProcessingInstruction.class));
-        assertThat(((XmlProcessingInstruction) temp).target(), is("xml-stylesheet"));
-        assertThat(((XmlProcessingInstruction) temp).data(), is("type=\"text/css\" href=\"netty.css\""));
+        assertThat(temp).isInstanceOf(XmlProcessingInstruction.class);
+        assertThat(((XmlProcessingInstruction) temp).target()).isEqualTo("xml-stylesheet");
+        assertThat(((XmlProcessingInstruction) temp).data()).isEqualTo("type=\"text/css\" href=\"netty.css\"");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlProcessingInstruction.class));
-        assertThat(((XmlProcessingInstruction) temp).target(), is("xml-test"));
-        assertThat(((XmlProcessingInstruction) temp).data(), is(""));
+        assertThat(temp).isInstanceOf(XmlProcessingInstruction.class);
+        assertThat(((XmlProcessingInstruction) temp).target()).isEqualTo("xml-test");
+        assertThat(((XmlProcessingInstruction) temp).data()).isEqualTo("");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("employee"));
-        assertThat(((XmlElementStart) temp).prefix(), is(""));
-        assertThat(((XmlElementStart) temp).namespace(), is(""));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(0));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(1));
-        assertThat(((XmlElementStart) temp).namespaces().get(0).prefix(), is("nettya"));
-        assertThat(((XmlElementStart) temp).namespaces().get(0).uri(), is("https://netty.io/netty/a"));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("employee");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).attributes().size()).isEqualTo(0);
+        assertThat(((XmlElementStart) temp).namespaces().size()).isEqualTo(1);
+        assertThat(((XmlElementStart) temp).namespaces().get(0).prefix()).isEqualTo("nettya");
+        assertThat(((XmlElementStart) temp).namespaces().get(0).uri()).isEqualTo("https://netty.io/netty/a");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("id"));
-        assertThat(((XmlElementStart) temp).prefix(), is("nettya"));
-        assertThat(((XmlElementStart) temp).namespace(), is("https://netty.io/netty/a"));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(0));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("id");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("nettya");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("https://netty.io/netty/a");
+        assertThat(((XmlElementStart) temp).attributes().size()).isZero();
+        assertThat(((XmlElementStart) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlEntityReference.class));
-        assertThat(((XmlEntityReference) temp).name(), is("plusmn"));
-        assertThat(((XmlEntityReference) temp).text(), is(""));
+        assertThat(temp).isInstanceOf(XmlEntityReference.class);
+        assertThat(((XmlEntityReference) temp).name()).isEqualTo("plusmn");
+        assertThat(((XmlEntityReference) temp).text()).isEqualTo("");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlCharacters.class));
-        assertThat(((XmlCharacters) temp).data(), is("1"));
+        assertThat(temp).isInstanceOf(XmlCharacters.class);
+        assertThat(((XmlCharacters) temp).data()).isEqualTo("1");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("id"));
-        assertThat(((XmlElementEnd) temp).prefix(), is("nettya"));
-        assertThat(((XmlElementEnd) temp).namespace(), is("https://netty.io/netty/a"));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("id");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("nettya");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("https://netty.io/netty/a");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlCharacters.class));
-        assertThat(((XmlCharacters) temp).data(), is("\n"));
+        assertThat(temp).isInstanceOf(XmlCharacters.class);
+        assertThat(((XmlCharacters) temp).data()).isEqualTo("\n");
 
         temp = channel.readInbound();
-        assertThat(temp, nullValue());
+        assertThat(temp).isNull();
 
         write(XML2);
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("name"));
-        assertThat(((XmlElementStart) temp).prefix(), is(""));
-        assertThat(((XmlElementStart) temp).namespace(), is(""));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(1));
-        assertThat(((XmlElementStart) temp).attributes().get(0).name(), is("type"));
-        assertThat(((XmlElementStart) temp).attributes().get(0).value(), is("given"));
-        assertThat(((XmlElementStart) temp).attributes().get(0).prefix(), is(""));
-        assertThat(((XmlElementStart) temp).attributes().get(0).namespace(), is(""));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("name");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).attributes().size()).isOne();
+        assertThat(((XmlElementStart) temp).attributes().get(0).name()).isEqualTo("type");
+        assertThat(((XmlElementStart) temp).attributes().get(0).value()).isEqualTo("given");
+        assertThat(((XmlElementStart) temp).attributes().get(0).prefix()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).attributes().get(0).namespace()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlCharacters.class));
-        assertThat(((XmlCharacters) temp).data(), is("Alba"));
+        assertThat(temp).isInstanceOf(XmlCharacters.class);
+        assertThat(((XmlCharacters) temp).data()).isEqualTo("Alba");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("name"));
-        assertThat(((XmlElementEnd) temp).prefix(), is(""));
-        assertThat(((XmlElementEnd) temp).namespace(), is(""));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("name");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlCdata.class));
-        assertThat(((XmlCdata) temp).data(), is(" <some data &gt;/> "));
+        assertThat(temp).isInstanceOf(XmlCdata.class);
+        assertThat(((XmlCdata) temp).data()).isEqualTo(" <some data &gt;/> ");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlCharacters.class));
-        assertThat(((XmlCharacters) temp).data(), is("   "));
+        assertThat(temp).isInstanceOf(XmlCharacters.class);
+        assertThat(((XmlCharacters) temp).data()).isEqualTo("   ");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlComment.class));
-        assertThat(((XmlComment) temp).data(), is(" namespaced "));
+        assertThat(temp).isInstanceOf(XmlComment.class);
+        assertThat(((XmlComment) temp).data()).isEqualTo(" namespaced ");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("salary"));
-        assertThat(((XmlElementStart) temp).prefix(), is("nettyb"));
-        assertThat(((XmlElementStart) temp).namespace(), is("https://netty.io/netty/b"));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(1));
-        assertThat(((XmlElementStart) temp).attributes().get(0).name(), is("period"));
-        assertThat(((XmlElementStart) temp).attributes().get(0).value(), is("weekly"));
-        assertThat(((XmlElementStart) temp).attributes().get(0).prefix(), is("nettyb"));
-        assertThat(((XmlElementStart) temp).attributes().get(0).namespace(), is("https://netty.io/netty/b"));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(1));
-        assertThat(((XmlElementStart) temp).namespaces().get(0).prefix(), is("nettyb"));
-        assertThat(((XmlElementStart) temp).namespaces().get(0).uri(), is("https://netty.io/netty/b"));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("salary");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("nettyb");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("https://netty.io/netty/b");
+        assertThat(((XmlElementStart) temp).attributes().size()).isOne();
+        assertThat(((XmlElementStart) temp).attributes().get(0).name()).isEqualTo("period");
+        assertThat(((XmlElementStart) temp).attributes().get(0).value()).isEqualTo("weekly");
+        assertThat(((XmlElementStart) temp).attributes().get(0).prefix()).isEqualTo("nettyb");
+        assertThat(((XmlElementStart) temp).attributes().get(0).namespace()).isEqualTo("https://netty.io/netty/b");
+        assertThat(((XmlElementStart) temp).namespaces().size()).isOne();
+        assertThat(((XmlElementStart) temp).namespaces().get(0).prefix()).isEqualTo("nettyb");
+        assertThat(((XmlElementStart) temp).namespaces().get(0).uri()).isEqualTo("https://netty.io/netty/b");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlCharacters.class));
-        assertThat(((XmlCharacters) temp).data(), is("100"));
+        assertThat(temp).isInstanceOf(XmlCharacters.class);
+        assertThat(((XmlCharacters) temp).data()).isEqualTo("100");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("salary"));
-        assertThat(((XmlElementEnd) temp).prefix(), is("nettyb"));
-        assertThat(((XmlElementEnd) temp).namespace(), is("https://netty.io/netty/b"));
-        assertThat(((XmlElementEnd) temp).namespaces().size(), is(1));
-        assertThat(((XmlElementEnd) temp).namespaces().get(0).prefix(), is("nettyb"));
-        assertThat(((XmlElementEnd) temp).namespaces().get(0).uri(), is("https://netty.io/netty/b"));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("salary");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("nettyb");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("https://netty.io/netty/b");
+        assertThat(((XmlElementEnd) temp).namespaces().size()).isOne();
+        assertThat(((XmlElementEnd) temp).namespaces().get(0).prefix()).isEqualTo("nettyb");
+        assertThat(((XmlElementEnd) temp).namespaces().get(0).uri()).isEqualTo("https://netty.io/netty/b");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("last"));
-        assertThat(((XmlElementStart) temp).prefix(), is(""));
-        assertThat(((XmlElementStart) temp).namespace(), is(""));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(0));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("last");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).attributes().size()).isZero();
+        assertThat(((XmlElementStart) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("last"));
-        assertThat(((XmlElementEnd) temp).prefix(), is(""));
-        assertThat(((XmlElementEnd) temp).namespace(), is(""));
-        assertThat(((XmlElementEnd) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("last");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("employee"));
-        assertThat(((XmlElementEnd) temp).prefix(), is(""));
-        assertThat(((XmlElementEnd) temp).namespace(), is(""));
-        assertThat(((XmlElementEnd) temp).namespaces().size(), is(1));
-        assertThat(((XmlElementEnd) temp).namespaces().get(0).prefix(), is("nettya"));
-        assertThat(((XmlElementEnd) temp).namespaces().get(0).uri(), is("https://netty.io/netty/a"));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("employee");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespaces().size()).isOne();
+        assertThat(((XmlElementEnd) temp).namespaces().get(0).prefix()).isEqualTo("nettya");
+        assertThat(((XmlElementEnd) temp).namespaces().get(0).uri()).isEqualTo("https://netty.io/netty/a");
 
         temp = channel.readInbound();
-        assertThat(temp, nullValue());
+        assertThat(temp).isNull();
     }
 
     /**
@@ -233,29 +232,29 @@ public class XmlDecoderTest {
         write(XML3);
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlDocumentStart.class));
-        assertThat(((XmlDocumentStart) temp).version(), is("1.1"));
-        assertThat(((XmlDocumentStart) temp).encoding(), is("UTF-8"));
-        assertThat(((XmlDocumentStart) temp).standalone(), is(true));
-        assertThat(((XmlDocumentStart) temp).encodingScheme(), is("UTF-8"));
+        assertThat(temp).isInstanceOf(XmlDocumentStart.class);
+        assertThat(((XmlDocumentStart) temp).version()).isEqualTo("1.1");
+        assertThat(((XmlDocumentStart) temp).encoding()).isEqualTo("UTF-8");
+        assertThat(((XmlDocumentStart) temp).standalone()).isEqualTo(true);
+        assertThat(((XmlDocumentStart) temp).encodingScheme()).isEqualTo("UTF-8");
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("netty"));
-        assertThat(((XmlElementStart) temp).prefix(), is(""));
-        assertThat(((XmlElementStart) temp).namespace(), is(""));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(0));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("netty");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).attributes().size()).isZero();
+        assertThat(((XmlElementStart) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("netty"));
-        assertThat(((XmlElementEnd) temp).prefix(), is(""));
-        assertThat(((XmlElementEnd) temp).namespace(), is(""));
-        assertThat(((XmlElementEnd) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("netty");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, nullValue());
+        assertThat(temp).isNull();
     }
 
     /**
@@ -268,33 +267,33 @@ public class XmlDecoderTest {
         write(XML4);
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlDocumentStart.class));
-        assertThat(((XmlDocumentStart) temp).version(), is(nullValue()));
-        assertThat(((XmlDocumentStart) temp).encoding(), is("UTF-8"));
-        assertThat(((XmlDocumentStart) temp).standalone(), is(false));
-        assertThat(((XmlDocumentStart) temp).encodingScheme(), is(nullValue()));
+        assertThat(temp).isInstanceOf(XmlDocumentStart.class);
+        assertThat(((XmlDocumentStart) temp).version()).isNull();
+        assertThat(((XmlDocumentStart) temp).encoding()).isEqualTo("UTF-8");
+        assertThat(((XmlDocumentStart) temp).standalone()).isEqualTo(false);
+        assertThat(((XmlDocumentStart) temp).encodingScheme()).isNull();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementStart.class));
-        assertThat(((XmlElementStart) temp).name(), is("netty"));
-        assertThat(((XmlElementStart) temp).prefix(), is(""));
-        assertThat(((XmlElementStart) temp).namespace(), is(""));
-        assertThat(((XmlElementStart) temp).attributes().size(), is(0));
-        assertThat(((XmlElementStart) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementStart.class);
+        assertThat(((XmlElementStart) temp).name()).isEqualTo("netty");
+        assertThat(((XmlElementStart) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementStart) temp).attributes().size()).isZero();
+        assertThat(((XmlElementStart) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, instanceOf(XmlElementEnd.class));
-        assertThat(((XmlElementEnd) temp).name(), is("netty"));
-        assertThat(((XmlElementEnd) temp).prefix(), is(""));
-        assertThat(((XmlElementEnd) temp).namespace(), is(""));
-        assertThat(((XmlElementEnd) temp).namespaces().size(), is(0));
+        assertThat(temp).isInstanceOf(XmlElementEnd.class);
+        assertThat(((XmlElementEnd) temp).name()).isEqualTo("netty");
+        assertThat(((XmlElementEnd) temp).prefix()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespace()).isEqualTo("");
+        assertThat(((XmlElementEnd) temp).namespaces().size()).isZero();
 
         temp = channel.readInbound();
-        assertThat(temp, nullValue());
+        assertThat(temp).isNull();
     }
 
     private void write(String content) {
-        assertThat(channel.writeInbound(Unpooled.copiedBuffer(content, CharsetUtil.UTF_8)), is(true));
+        assertThat(channel.writeInbound(Unpooled.copiedBuffer(content, CharsetUtil.UTF_8))).isEqualTo(true);
     }
 
 }
