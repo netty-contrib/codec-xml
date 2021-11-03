@@ -16,7 +16,7 @@
 package io.netty.contrib.handler.codec.xml;
 
 /**
- * XML CDATA ... <![CDATA[&lt;sender&gt;John Smith&lt;/sender&gt;]]>
+ * XML CDATA ... &lt;![CDATA[&lt;sender&gt;John Smith&lt;/sender&gt;]]&gt;
  */
 public class XmlCdata extends XmlContent {
 
