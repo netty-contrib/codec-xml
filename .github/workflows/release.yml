@@ -67,7 +67,7 @@ jobs:
           mvn clean install -B -ntp
 
       - name: Prepare release with Maven
-        run: mvn -B -ntp --file pom.xml release:prepare -DpreparationGoals=clean -DskipTests '-DnewVersion=${{ github.event.inputs.version }}'
+        run: mvn -B -ntp --file pom.xml release:prepare -DpreparationGoals=clean -DskipTests '-DnewVersion=${{ github.event.inputs.version }}' '-Dtag=${{ env.tag }}'
 
       - name: Perform release with Maven
         run: mvn -B -ntp --file pom.xml release:perform -Drelease.gpg.keyname=${{ secrets.GPG_KEYNAME }} -Drelease.gpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
