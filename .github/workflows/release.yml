@@ -31,11 +31,11 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY_PEM }}
-          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+#      - name: Install SSH key
+#        uses: shimataro/ssh-key-action@v2
+#        with:
+#          key: ${{ secrets.SSH_PRIVATE_KEY_PEM }}
+#          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Configure Git
         run: |
@@ -43,13 +43,14 @@ jobs:
           git config user.email "netty-project-bot@users.noreply.github.com"
 
       - name: Configure Maven Release Repository
-        uses: s4u/maven-settings-action@v2.2.0
+        uses: s4u/maven-settings-action@v2
         with:
+          githubServer: false
           servers: |
             [{
-                "id": "sonatype-nexus",
-                "username": "${{ secrets.SONATYPE_USERNAME }}",
-                "password": "${{ secrets.SONATYPE_PASSWORD }}"
+              "id": "sonatype-nexus",
+              "username": "${{ secrets.SONATYPE_USERNAME }}",
+              "password": "${{ secrets.SONATYPE_PASSWORD }}"
             }]
 
       # See https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-environment-variable
