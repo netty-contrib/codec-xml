@@ -39,7 +39,7 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "Release on behalf of $GITHUB_ACTOR"
+          git config user.name "Netty Project Bot on behalf of $GITHUB_ACTOR"
           git config user.email "netty-project-bot@users.noreply.github.com"
 
       - name: Configure Maven Release Repository
