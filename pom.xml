@@ -24,7 +24,7 @@
 
   <groupId>io.netty.contrib</groupId>
   <artifactId>netty-codec-xml</artifactId>
-  <version>5.0.1.Final-SNAPSHOT</version>
+  <version>5.0.0.Final-SNAPSHOT</version>
   <name>Netty/Codec/XML</name>
   <packaging>jar</packaging>
   <url>https://netty.io/</url>

@@ -75,10 +75,9 @@ jobs:
         run: |
           git add .
           git commit -m 'Update versions for release'
-          git push
 
       - name: Prepare release with Maven
-        run: mvn -B -ntp --file pom.xml release:prepare -DpreparationGoals=clean -DskipTests '-DnewVersion=${{ github.event.inputs.version }}' '-Dtag=${{ env.tag }}'
+        run: mvn -B -ntp --file pom.xml release:prepare -DpreparationGoals=clean -DskipTests '-DreleaseVersion=${{ github.event.inputs.version }}' '-Dtag=${{ env.tag }}'
 
       - name: Perform release with Maven
         run: mvn -B -ntp --file pom.xml release:perform -Drelease.gpg.keyname=${{ secrets.GPG_KEYNAME }} -Drelease.gpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
