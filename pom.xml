@@ -67,7 +67,7 @@
 
   <properties>
     <javaModuleName>io.netty.contrib.codec.xml</javaModuleName>
-    <netty.version>(4.1.70,)</netty.version>
+    <netty.version>5.0.0.Final-SNAPSHOT</netty.version>
     <netty.build.version>29</netty.build.version>
     <project.scm.id>github</project.scm.id>
     <release.gpg.keyname />
